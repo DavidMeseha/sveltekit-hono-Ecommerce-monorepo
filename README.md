@@ -69,17 +69,6 @@ This is a monorepo for a simple e-commerce platform built with **SvelteKit** for
 
 6. Open your browser at [http://localhost:5173](http://localhost:5173).
 
-## Folder Structure
-
-- `apps/Frontend`: SvelteKit frontend
-- `apps/backend`: Hono backend API
-- `apps/backend/prisma`: Prisma schema and migrations
-- `apps/backend/public`: Static assets (e.g., product images)
-
-## API Endpoints
-
-
-
 ## Acknowledgements
 
 - [SvelteKit](https://kit.svelte.dev/)

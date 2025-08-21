@@ -15,12 +15,12 @@
 	let selectedImageIndex = 0;
 	let isAddingToCart = false;
 	let toastMessage: string | null = null;
-	let toastTimeout: number | null = null;
+	let toastTimeout: ReturnType<typeof setTimeout> | null = null;
 	let newRating = 0;
 	let newComment = '';
 	let isSubmittingReview = false;
 
-	const productSeName = $page.params.seName;
+	const productSeName = $page.params.seName ?? '';
 
 	onMount(async () => {
 		try {

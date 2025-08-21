@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { fetchProducts } from '$lib/api/productsApi';
-	import { fetchCategories } from '$lib/api/categoriesApi';
 	import ProductCard from '$lib/components/ProductCard.svelte';
 	import type { Product, ProductResponse, Category } from '$lib/types';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
+	import { onMount } from 'svelte';
 
 	let products: Product[] = [];
 	let isLoading = true;
@@ -48,17 +48,6 @@
 			products = result.products;
 			currentPage = result.metadata.page;
 			totalPages = result.metadata.pages;
-
-			// Update URL with current filters and pagination
-			const queryParams = new URLSearchParams({
-				page: page.toString(),
-				search: searchQuery,
-				category: selectedCategory,
-				sort: sortBy,
-				price_min: priceRange[0].toString(),
-				price_max: priceRange[1].toString()
-			});
-			goto(`?${queryParams.toString()}`, { replaceState: true });
 		} catch (err) {
 			error = err instanceof Error ? err.message : 'An unknown error occurred';
 			console.error('Error loading products:', err);
@@ -68,21 +57,10 @@
 		}
 	};
 
-	// React to URL changes
-	$: {
-		const urlParams = new URLSearchParams($page.url.search);
-		const pageParam = parseInt(urlParams.get('page') || '1', 10);
-
-		searchQuery = urlParams.get('search') || '';
-		selectedCategory = urlParams.get('category') || '';
-		sortBy = urlParams.get('sort') || 'price';
-		priceRange = [
-			parseInt(urlParams.get('price_min') || '0', 10),
-			parseInt(urlParams.get('price_max') || '100000', 10) // Updated max price to 100000
-		];
-
-		fetchProductData(pageParam);
-	}
+	// Initialize products on component mount
+	onMount(() => {
+		fetchProductData(1);
+	});
 
 	// Pagination handlers
 	const goToNextPage = () => {
