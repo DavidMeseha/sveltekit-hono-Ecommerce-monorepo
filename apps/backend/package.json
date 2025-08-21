@@ -3,8 +3,9 @@
   "type": "module",
   "scripts": {
     "dev": "tsx watch src/index.ts",
-    "build": "tsup src/index.ts --format esm,cjs --dts",
-    "start": "node dist/index.js"
+    "build": "npx prisma generate && tsup src/index.ts --format esm,cjs --dts && npm run copy-files",
+    "start": "node dist/index.js",
+    "copy-files": "cp -r api dist/ && cp package.json dist/ && cp vercel.json dist/ && cp -r prisma dist/"
   },
   "dependencies": {
     "@hono/node-server": "^1.18.1",
